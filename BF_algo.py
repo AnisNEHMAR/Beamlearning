@@ -76,11 +76,11 @@ def creer_signals_antenne(antenne_Obj, p_source, t_initial, T, theta0_deg,
     theta0 = theta0_deg*np.pi/180
         
     #  vecteur des temps d'arrivée pour chaque capteur (microphone)
-    temps_darrivee = -antenne_Obj.m*antenne_Obj.d*np.cos(theta0)/c0
+    temps_darrivee = -antenne_Obj.indices*antenne_Obj.d*np.cos(theta0)/c0
         
     N_initial= int(t_initial*fs)
     N_final = N_initial + p_source.shape[0]
-        
+     
     # Nombre d'echantillons (la durée)
     N = int(T*fs)
         
@@ -99,8 +99,6 @@ def creer_signals_antenne(antenne_Obj, p_source, t_initial, T, theta0_deg,
     for m in range(antenne_Obj.M):
         # ... déphasage de signal
         p_array[m, N_initial:N_final] += p_source
-            
-        
         p_array[m, :] = retarder_signal(p_array[m, :], temps_darrivee[m], fs)
         
     return p_array
