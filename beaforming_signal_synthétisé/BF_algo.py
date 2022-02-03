@@ -70,17 +70,19 @@ def creer_signals_antenne(antenne_Obj, p_source, t_initial, T, theta0_deg,
         # on assume que notre onde sonore est plane à son arrivée à notre antenne
         # donc notre source sonore doit etre sufisament lointaine
 
+    
     rnd = np.random.default_rng()
-        
+      
     # direction d'arrivée de signal sonore (propagation des ondes planes)
     theta0 = theta0_deg*np.pi/180
         
     #  vecteur des temps d'arrivée pour chaque capteur (microphone)
-    temps_darrivee = -antenne_Obj.m*antenne_Obj.d*np.cos(theta0)/c0
+    temps_darrivee = -antenne_Obj.indices*antenne_Obj.d*np.cos(theta0)/c0
+    
         
     N_initial= int(t_initial*fs)
     N_final = N_initial + p_source.shape[0]
-        
+       
     # Nombre d'echantillons (la durée)
     N = int(T*fs)
         
@@ -89,6 +91,7 @@ def creer_signals_antenne(antenne_Obj, p_source, t_initial, T, theta0_deg,
         # pas de bruit
         p_array = np.zeros((antenne_Obj.M, N))
         
+    
     else:
         # si SNR_dB est donné, ajouter un bruit aléatoire aux signaux du tableau au SNR désiré
         signal_var = np.var(p_source)
@@ -98,6 +101,7 @@ def creer_signals_antenne(antenne_Obj, p_source, t_initial, T, theta0_deg,
     # pour chaque microphone d'antenne...
     for m in range(antenne_Obj.M):
         # ... déphasage de signal
+        
         p_array[m, N_initial:N_final] += p_source
             
         
